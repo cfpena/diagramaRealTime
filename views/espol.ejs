@@ -1,0 +1,152 @@
+<script>
+
+$(document).ready(function(){
+
+	$('#submit').click(login);
+});
+
+
+function login(){
+  $.post("/loginEspol",
+  {username: $('#username').val(), password: $('#password').val()}
+  ,
+  function(data, status){
+
+      window.location.assign("/principal");
+    }).fail(function() {
+    alert( "error" );
+  });}
+
+
+
+
+
+
+</script>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+	<head>
+	    <title>ESPOL | Servicio de Autenticación</title>
+
+
+        <link type="text/css" rel="stylesheet" href="styles/cas.css" />
+        <link type="text/css" rel="stylesheet" href="styles/cas3.css" />
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	    <link rel="icon" href="favicon.ico" type="image/x-icon" />
+	</head>
+	<body id="cas" class="fl-theme-iphone">
+    <div class="flc-screenNavigator-view-container">
+        <div class="fl-screenNavigator-view">
+            <div id="header" class="flc-screenNavigator-navbar fl-navbar fl-table">
+				<h1 id="company-name">ESPOL</h1>
+                <!-- <h1 id="app-name" class="fl-table-cell">Central Authentication Service (CAS)</h1> -->
+            </div>
+            <div id="content" class="fl-screenNavigator-scroll-container">
+
+
+
+
+  <div class="box fl-panel" id="login">
+			<form id="fm1" class="fm-v clearfix" >
+
+                <!-- - Felicidades por iniciar CAS correctamente! El método de autentifiación por defecto es el nombre de usuario igual a la contraseña : adelante, pruébelo. -->
+                    <!-- <h2>Introduzca su NetID y Contraseña.</h2> -->
+                    <div class="row fl-controls-left">
+                        <!-- <label for="username" class="fl-label"><span class="accesskey">N</span>etID:</label> -->
+                        <label for="username" class="fl-label">Usuario: </label>
+
+                        <label for="username" class="espol">@espol.edu.ec</label>
+
+
+
+						<input id="username" name="username" class="required" tabindex="1" accesskey="n" type="text" value="" size="25" autocomplete="false"/>
+
+                    </div>
+                    <div class="row fl-controls-left">
+                        <label for="password" class="fl-label"><span class="accesskey">C</span>ontraseña:</label>
+
+
+
+						<input id="password" name="password" class="required" tabindex="2" accesskey="c" type="password" value="" size="25" autocomplete="off"/>
+                    </div>
+                    <div class="row check">
+                        <input id="warn" name="warn" value="true" tabindex="3" accesskey="a" type="checkbox" />
+                        <label for="warn"><span class="accesskey">A</span>visarme antes de abrir sesión en otros sitios.</label>
+                    </div>
+                    <div class="row btn-row">
+						<input type="hidden" name="lt" value="LT-613891-e1CkIYbEabw6Vlgqdq5bty62ZmY7Kz" />
+						<input type="hidden" name="execution" value="e4s1" />
+						<input type="hidden" name="_eventId" value="submit" />
+
+                        <a class="btn-submit" id="submit" value="INICIAR SESIÓN" />INICIAR SESION</a>
+                        <input class="btn-reset" name="reset" accesskey="c" value="LIMPIAR" tabindex="5" type="reset" />
+                    </div>
+            </form>
+          </div>
+            <div id="sidebar">
+				<div class="sidebar-content">
+                    <h3>Atenci&oacute;n:</h3>
+                    <p>
+                        En caso de que no tenga usuario, o su usuario se encuentre bloqueado dirigirse a la p&aacute;gina del
+                        <a href="http://www.serviciosti.espol.edu.ec/">GTSI</a>, y escoger la opci&oacute;n del men&uacute; Cuenta Electr&oacute;nica.
+                    </p>
+                    <p class="fl-panel fl-note fl-bevel-white fl-font-size-80">
+                        Por razones de seguridad, por favor cierre su sesión y su navegador web cuando haya terminado de acceder a los servicios que requieren autentificación.
+                    </p>
+
+                <div id="list-languages" class="fl-panel">
+
+
+
+                  <h3 style="text-align:center;">Languages:</h3>
+
+
+
+
+						<ul style="text-align:center;">
+                        	<li class="first"><a href="login?service=https%253A%252F%252Fwww.sidweb.espol.edu.ec%252Flogin&amp;locale=en">English</a></li>
+                            <li><a href="login?service=https%253A%252F%252Fwww.sidweb.espol.edu.ec%252Flogin&amp;locale=es">Spanish</a></li>
+                            <!--
+                            <li><a href="login?service=https%3A%2F%2Fwww.sidweb.espol.edu.ec%2Flogin&locale=fr">French</a></li>
+                            <li><a href="login?service=https%3A%2F%2Fwww.sidweb.espol.edu.ec%2Flogin&locale=ru">Russian</a></li
+							><li><a href="login?service=https%3A%2F%2Fwww.sidweb.espol.edu.ec%2Flogin&locale=nl">Nederlands</a></li
+							><li><a href="login?service=https%3A%2F%2Fwww.sidweb.espol.edu.ec%2Flogin&locale=sv">Svenska</a></li
+							><li><a href="login?service=https%3A%2F%2Fwww.sidweb.espol.edu.ec%2Flogin&locale=it">Italiano</a></li
+							><li><a href="login?service=https%3A%2F%2Fwww.sidweb.espol.edu.ec%2Flogin&locale=ur">Urdu</a></li
+							><li><a href="login?service=https%3A%2F%2Fwww.sidweb.espol.edu.ec%2Flogin&locale=zh_CN">Chinese (Simplified)</a></li
+                            ><li><a href="login?service=https%3A%2F%2Fwww.sidweb.espol.edu.ec%2Flogin&locale=zh_TW">Chinese (Traditional)</a></li
+							><li><a href="login?service=https%3A%2F%2Fwww.sidweb.espol.edu.ec%2Flogin&locale=de">Deutsch</a></li
+							><li><a href="login?service=https%3A%2F%2Fwww.sidweb.espol.edu.ec%2Flogin&locale=ja">Japanese</a></li
+							><li><a href="login?service=https%3A%2F%2Fwww.sidweb.espol.edu.ec%2Flogin&locale=hr">Croatian</a></li
+							><li><a href="login?service=https%3A%2F%2Fwww.sidweb.espol.edu.ec%2Flogin&locale=cs">Czech</a></li
+							><li><a href="login?service=https%3A%2F%2Fwww.sidweb.espol.edu.ec%2Flogin&locale=sl">Slovenian</a></li
+                            ><li><a href="login?service=https%3A%2F%2Fwww.sidweb.espol.edu.ec%2Flogin&locale=ca">Catalan</a></li
+                            ><li><a href="login?service=https%3A%2F%2Fwww.sidweb.espol.edu.ec%2Flogin&locale=mk">Macedonian</a></li
+                            ><li><a href="login?service=https%3A%2F%2Fwww.sidweb.espol.edu.ec%2Flogin&locale=fa">Farsi</a></li
+                            ><li><a href="login?service=https%3A%2F%2Fwww.sidweb.espol.edu.ec%2Flogin&locale=ar">Arabic</a></li
+                            ><li><a href="login?service=https%3A%2F%2Fwww.sidweb.espol.edu.ec%2Flogin&locale=pt_PT">Portuguese</a></li
+                            ><li><a href="login?service=https%3A%2F%2Fwww.sidweb.espol.edu.ec%2Flogin&locale=pt_BR">Portuguese (Brazil)</a></li
+							><li class="last"><a href="login?service=https%3A%2F%2Fwww.sidweb.espol.edu.ec%2Flogin&locale=pl">Polish</a></li>
+                            -->
+                        </ul>
+
+
+                </div>
+				</div>
+            </div>
+
+
+
+</div>
+                <div id="footer" class="fl-panel fl-note fl-bevel-white fl-font-size-80">
+                	<a id="jasig" href="http://www.jasig.org" title="go to Jasig home page"></a>
+                    <div id="copyright">
+                        <p>Servicio proporcionado por <a href="http://www.serviciosti.espol.edu.ec">GTSI</a></p>
+                    </div>
+                </div>
+                <div class="curva">
+                </div>
+            </div>
+        </div>
+
+    </body>
+</html>

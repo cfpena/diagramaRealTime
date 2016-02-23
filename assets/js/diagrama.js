@@ -28,7 +28,7 @@ io.socket.on('diagrama', function(obj) {
         //entidad.set('name', $('nombreEntidad').text);
     });
     $('#guardar').click(function(){
-      if( diagramaID==-1)
+      if( diagramaID=='-1')
       $('#modalGuardar').openModal();
       else {
         guardar();
@@ -72,40 +72,43 @@ var paper = new joint.dia.Paper({
 paper.on('cell:pointerup',
     function(cellView, evt, x, y) {
 
-      guardar();
+
       if(eliminar==0){
+        if(diagramaID!='-1') guardar();
     /*  $('#nombreEntidad').text(cellView.model.get('name'));
       $('#atributosEntidad').text(cellView.model.get('attributes'));
       idActual = cellView.model.id;*/
     }
     else{
+      console.log('eliminar');
       cellView.model.remove();
+      if(diagramaID!='-1') guardar();
       eliminar=0;
     }
          //cellView.model.get('name')
-    }
-);
+    });
+
+
+
 /*
 graph.on('change', function(cell) {
   guardar();
 })
-*/
+
 elements= graph.getElements();
 elements.forEach(function(element){
 
 
 
-});
+});*/
 
 
 
 
 var uml = joint.shapes.uml;
-var entidades = new Array();
-var relaciones = new Array();
 var idActual;
 var eliminar = 0;
-var diagramaID=-1;
+var diagramaID='-1';
 
 function agregarEntidad(){
   var entidad = new uml.Class({
@@ -135,7 +138,6 @@ function agregarEntidad(){
 
   });
   graph.addCell(entidad);
-  entidades.push(entidad.toJSON());
 
 }
 
@@ -176,7 +178,6 @@ function agregarEntidadP(x,y,name,attributes,id){
 
    });*/
   graph.addCell(entidad);
-  entidades.push(entidad.toJSON());
 
 }
 
@@ -195,24 +196,26 @@ function agregarLink(source,target){
 
 
 function guardar(){
-  var ele= [];
+  var entidades= new Array();
+  var relaciones =new Array();
 
-  links=graph.getLinks();
-  elements = graph.getElements();
-
-  links.forEach(function(relacion,index){
+  rel=graph.getLinks();
+  ele = graph.getElements();
+  if(rel!= undefined){
+rel.forEach(function(relacion,index){
       relaciones.push(relacion.toJSON());
   });
-
-  elements.forEach(function(element,index){
-      ele.push(element.toJSON());
+    }
+if(ele!=undefined){
+  ele.forEach(function(element,index){
+      entidades.push(element.toJSON());
   });
-
+}
 
 if (diagramaID=='-1'){
 
   $.post("/diagramCreate",
-  {nombre: $('#nombreDiagrama').val(), entidades: ele, relaciones: relaciones}
+  {nombre: $('#nombreDiagrama').val(), entidades: entidades, relaciones: relaciones}
   ,
   function(data, status){
 
@@ -223,7 +226,7 @@ if (diagramaID=='-1'){
   else {
 
       $.post("/diagramaSave",
-      {id: diagramaID, entidades: ele, relaciones: relaciones}
+      {id: diagramaID, entidades: entidades, relaciones: relaciones}
       ,
       function(data, status){}).fail(function() {
         alert( "error" );
@@ -245,15 +248,15 @@ function reload(diagrama){
   });
 
 if(diagrama.entidades!=undefined){
+  console.log('entidad');
   diagrama.entidades.forEach(function(entidad,index){
-
     var ent = entidad;
-
     agregarEntidadP(parseInt(ent.position.x),parseInt(ent.position.y),ent.name,ent.attributes,ent.id);
   });
-}
+  }
 if(diagrama.relaciones!=undefined){
   diagrama.relaciones.forEach(function(relacion,index){
+    console.log('relacion');
     var rel = relacion;
     agregarLink(rel.source.id,rel.target.id);
   });}

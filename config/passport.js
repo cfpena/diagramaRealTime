@@ -28,8 +28,9 @@ module.exports.passport = {
     protocol: 'oauth',
     strategy: require('passport-twitter').Strategy,
     options: {
-      consumerKey: 'your-consumer-key',
-      consumerSecret: 'your-consumer-secret'
+      consumerKey: 'Q0yZmxCRxlHPvnZ5wOHaVAlhF',
+      consumerSecret: 'qj3ewGP908sYOw9KHfCklHPddUE8xPQOnaNseKiDwlm5OYCpOz'
+  //  callbackURL: 'http://localhost:1337/auth/twitter/callback?next=/principal'
     }
   },
 
@@ -48,9 +49,11 @@ module.exports.passport = {
     protocol: 'oauth2',
     strategy: require('passport-facebook').Strategy,
     options: {
-      clientID: 'your-client-id',
-      clientSecret: 'your-client-secret',
-      scope: ['email'] /* email is necessary for login behavior */
+      clientID: '892603514191908',
+      clientSecret: '7fd8ddf27151bb9cc44d05da3fb30c52',
+    //  callbackURL: "http://localhost:1337/auth/facebook/callback",
+      profileFields: ['id', 'emails', 'name'],
+      scope : ['email']
     }
   },
 

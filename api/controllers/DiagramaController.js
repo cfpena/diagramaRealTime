@@ -67,25 +67,26 @@ module.exports = {
 
 
 		Diagrama.findOne(req.param('id')).populateAll().exec(function (err, diagrama){
-			if(entidades != undefined){
+			if(diagrama.entidades != undefined){
 				diagrama.entidades.forEach(function(entidad){
 					Entidad.destroy(entidad.id).exec(function (err){});
 				});
-
+			}
+			if(entidades != undefined){
 				entidades.forEach(function(data, index){
 					diagrama.entidades.add({data: data});
 				});
 				}
 
-				if(relaciones != undefined){
+			if(diagrama.relaciones != undefined){
 				diagrama.relaciones.forEach(function(relacion){
 					Relacion.destroy(relacion.id).exec(function (err){});
 				});
+			}
 
-
+	if(relaciones != undefined){
 				relaciones.forEach(function(data, index){
 					diagrama.relaciones.add({data: data});
-					console.log("relacion");
 				});
 			}
 				diagrama.save(function(err) {});
@@ -98,12 +99,16 @@ module.exports = {
 
 
 					Diagrama.findOne(req.param('id')).populateAll().exec(function (err, diagrama){
+						if(diagrama.entidades != undefined){
 							diagrama.entidades.forEach(function(entidad){
 								Entidad.destroy(entidad.id).exec(function (err){});
 							});
+						}
+						if(diagrama.relaciones != undefined){
 							diagrama.relaciones.forEach(function(relacion){
 								Relacion.destroy(relacion.id).exec(function (err){});
 							});
+						}
 					Diagrama.destroy(req.param('id')).exec(function (err){});
 
 				});

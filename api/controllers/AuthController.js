@@ -43,6 +43,30 @@ var AuthController = {
      }
 
   },
+
+    loginEspol: function(req, res) {
+      var passport = require('passport');
+      var soap = require('soap');
+      var url = 'https://ws.espol.edu.ec/saac/wsandroid.asmx?WSDL';
+      var username = req.param('username');
+      var password = req.param('password');
+      console.log(username);
+      console.log(password);
+      soap.createClient(url,function(err,client){
+        client.autenticacion(
+          {authUser: username, authContrasenia: password},
+          function(err,result){
+            console.log(result.autenticacionResult);
+            if (result.autenticacionResult){
+              req.session.authenticated = true
+              return res.redirect('/principal');
+            }else{
+              console.log("Error");
+            }
+            // return res.json({resultado: result});
+          });
+      });
+    },
   login: function (req, res) {
     var strategies = sails.config.passport
       , providers  = {};
@@ -183,7 +207,7 @@ var AuthController = {
 
         // Upon successful login, send the user to the homepage were req.user
         // will be available.
-        res.send('true');
+        res.redirect('/principal');
       });
     });
   },

@@ -1,0 +1,49 @@
+#cas #header #company-name{
+	background:url(../images/espol-logo.png) no-repeat;
+	height:83px; 
+	width:100%;
+	background-position: center;
+	margin:50px 0;
+	background-size:contain; 
+	}
+#cas #header { border-top:10px solid #001c43; }
+#cas{ background-color:white;}
+.fl-screenNavigator-view{ background-color:#F2F2F2;}
+#cas .flc-screenNavigator-view-container #header, #cas .flc-screenNavigator-view-container #content { background-color:transparent; } 
+#cas #content #login{ float:none; margin:0 auto; }
+#cas #content #login{ background-color:#C7C6C5; max-width:350px; width:auto; }
+#cas #content #login #fm1{ background-color:transparent; }
+#cas .flc-screenNavigator-view-container { max-width: 580px; min-width:250px; }
+.sidebar-content{ max-width:350px; min-width:150px; width:auto; margin:0 auto;  }
+.sidebar-content h3{ margin-top:10px; text-align:center; }
+#cas #content #sidebar .sidebar-content{ padding-left:0; }
+.curva{ 
+	background-image:url(../images/curva.png);
+	background-repeat:no-repeat; 
+	height:95px;
+	background-size: contain;
+	/*background-color:white;*/
+}
+
+#cas .flc-screenNavigator-view-container #header{ margin-top:50px; }
+
+#cas .flc-screenNavigator-view-container #header, 
+#cas .flc-screenNavigator-view-container #content{
+	box-shadow:none; 
+	-webkit-box-shadow:none;
+}
+#copyright{text-align:center; }
+#cas #footer{ margin-bottom:0; }
+#cas #content #login #fm1 .row .fl-label,
+#cas #content #login #fm1 .row.check
+ { color:black; margin-bottom:2px;  } 
+
+ #cas #content #login #fm1 .row .btn-submit,
+ #cas #content #login #fm1 .row .btn-reset { background-color:#001C43; border:0; color:white; font-size:11px; padding:5px 10px; border-radius:6px; text-transform:uppercase; } 
+  #cas #content #login #fm1 .row .btn-reset {padding: 5px 26px;}
+ .btn-row{ margin-top:30px; text-align:center;}
+ 
+a{ color:#001c43; text-decoration:none; }
+
+.espol {     float: right;
+    margin-top: 6px;}
