@@ -1,0 +1,110 @@
+<% include ../header %>
+<% include ../menu %>
+<script src="js/load.js"></script>
+
+
+
+
+ <!--Modal para compartir diagrama-->
+ <div id="compartirModal" class="modal modal-fixed-footer">
+    <div class="modal-content">
+      <h4>Compartir</h4>
+
+   <div class="row">
+     <div class="input-field col s6">
+       <input id="username" type="text" class="validate">
+       <label class="active" for="username">Nombre de usuario</label>
+     </div>
+
+   </div>
+
+    </div>
+    <div class="modal-footer">
+      <a id='compartirBoton' class="modal-action modal-close waves-effect waves-green btn-flat ">Compartir</a>
+    </div>
+  </div>
+
+
+
+
+
+
+
+<div>
+    <div class="row" >
+
+
+
+      <div class="s2 col">
+          <div class="row">
+          <div class="card blue lighten-1">
+              <div class="card-content center-align">
+                  <div class="card-title truncate">Nuevo</div>
+                  <img id="nuevo" class="circle" src="">
+                  <p class="blue-text text-darken-4"><!-- Compartido --></p>
+                  <br>
+                  <br>
+                  <br>
+                  <br>
+                  <br>
+              </div>
+              <div class="card-action center-align truncate">
+                  <a href="#" class="blue-text text-darken-4"></a>
+              </div>
+          </div><!--/card-->
+      </div>
+      </div>
+
+
+
+
+
+
+
+
+
+
+
+<% diagramas.forEach(function(diagrama,index)  { %>
+        <div class="s2 col" id=<%= "div"+ diagrama.id %>>
+            <div class="row">
+            <div class="card blue lighten-1">
+                <div class="card-content center-align">
+                    <div class="card-title truncate"><%= diagrama.nombre %></div>
+                    <img class="circle" src="">
+
+                    <p class="blue-text text-darken-4"><% if(diagrama.creador != user.username)  { %>
+                      Compartido por <%= diagrama.creador %></p>
+                    <% }else{ %>
+                      <br>
+                      <% } %>
+                    <br>
+                    <div class="row">
+                        <div class="col m2 hide-on-small-only">&nbsp;</div>
+                        <div class="col m2 s6 center-align"><a class="edit" data-id=<%= diagrama.id %> ><i class="white-text small mdi-action-visibility"></i></a></div>
+                        <% if(diagrama.creador == user.username)  { %>
+                        <div class="col m2 s6 center-align"><a class="destroy" data-id=<%= diagrama.id %>><i class="white-text small mdi-action-highlight-remove"></i></a></div>
+
+                        <div class="col m2 s6 center-align"><a class="share" data-id=<%= diagrama.id %>><i class="white-text small mdi-action-account-child"></i></a></div>
+                          <% } %> 
+                        <div class="col m2 s6 center-align"><a href=""><i class="white-text small mdi-action-account-balance"></i></a></div>
+                        <div class="col m2 .hide-on-small-only">&nbsp;</div>
+                    </div>
+                </div>
+                <div class="card-action center-align truncate">
+                    <a href="#" class="blue-text text-darken-4"></a>
+                </div>
+            </div><!--/card-->
+        </div>
+        </div>
+<% }); %>
+    </div>
+
+
+</div>
+
+
+
+
+
+<% include ../footer %>

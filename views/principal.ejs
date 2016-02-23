@@ -1,0 +1,40 @@
+<% include header %>
+<% include menu %>
+
+<div>
+    <div class="row" >
+        <div class="s10 offset-s1 col">
+            <div class="row">
+        <div class="col m4 animated fadeInUp" style="-webkit-animation-duration: 300 ms" >
+            <div class="card blue lighten-1">
+                <div class="card-content center-align">
+                    <div class="card-title truncate">hola</div>
+                    <img class="circle" src="">
+                    <p class="blue-text text-darken-4"></p>
+                    <br>
+                    <div class="row">
+                        <div class="col m2 hide-on-small-only">&nbsp;</div>
+                        <div class="col m2 s6 center-align"><a href=""><i class="white-text small mdi-action-face-unlock"></i></a></div>
+                        <div class="col m2 s6 center-align"><a href=""><i class="white-text small mdi-action-highlight-remove"></i></a></div>
+                        <div class="col m2 s6 center-align"><a href=""><i class="white-text small mdi-action-alarm-on"></i></a></div>
+                        <div class="col m2 s6 center-align"><a href=""><i class="white-text small mdi-action-account-balance"></i></a></div>
+                        <div class="col m2 .hide-on-small-only">&nbsp;</div>
+                    </div>
+                </div>
+                <div class="card-action center-align truncate">
+                    <a href="#" class="blue-text text-darken-4"></a>
+                </div>
+            </div><!--/card-->
+        </div>
+        </div>
+        </div>
+    </div>
+</div>
+<% diagramas.forEach(function(diagrama)  { %>
+<%= diagrama.nombre %>
+<% }); %>
+
+
+
+
+<% include footer %>
