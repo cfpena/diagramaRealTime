@@ -1,6 +1,6 @@
 $(document).ready(function(){
-$('#login').click(login);
-$('#registro').click(registro);
+  $('#login').click(login);
+  $('#registro').click(registro);
 });
 
 function login(){
@@ -8,9 +8,9 @@ function login(){
   {identifier: $('#usuarioLogin').val(), password: $('#claveLogin').val()}
   ,
   function(data, status){
-      
-      window.location.assign("/principal");
-    }).fail(function() {
+
+    window.location.assign("/principal");
+  }).fail(function() {
     alert( "error" );
   });;
 }
@@ -23,7 +23,7 @@ function registro(){
     alert('registro correcto');
     window.location.assign("/");
 
-    }).fail(function() {
+  }).fail(function() {
     alert( "error" );
   });
 }

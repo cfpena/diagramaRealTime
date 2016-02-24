@@ -1,62 +1,62 @@
 $(document).ready(function(){
-/*  io.socket.get('/diagramaSave');
-io.socket.on('diagrama', function(obj) {
-    if(obj.verb === 'messaged') {
-        console.log(obj);
-        // Do something fun with the message object!
-    }
+  /*  io.socket.get('/diagramaSave');
+  io.socket.on('diagrama', function(obj) {
+  if(obj.verb === 'messaged') {
+  console.log(obj);
+  // Do something fun with the message object!
+}
 });*/
 //io.socket.on('diagrama', function(event){console.log(event);})
 
-    // the "href" attribute of .modal-trigger must specify the modal ID that wants to be triggered
+// the "href" attribute of .modal-trigger must specify the modal ID that wants to be triggered
 
-    $('#entidad').click(function(){
-      //$('#modalEntidad').openModal();
+$('#entidad').click(function(){
+  //$('#modalEntidad').openModal();
 
-      $('#nombreEntidad').val('');
-      $('#atributosEntidad').val('');
-      $('#modalEntidad').openModal();
-      eliminar=0;
-    });
+  $('#nombreEntidad').val('');
+  $('#atributosEntidad').val('');
+  $('#modalEntidad').openModal();
+  eliminar=0;
+});
 
-    $('#seleccionar').click(function(){ eliminar=0});
-    $('#eliminar').click(function(){ eliminar=1});
+$('#seleccionar').click(function(){ eliminar=0});
+$('#eliminar').click(function(){ eliminar=1});
 
-    $('#botonEntidad').click(function(){
-        agregarEntidad();
-        //entidad = graph.getCell(idActual);
-        //entidad.set('name', $('nombreEntidad').text);
-    });
-    $('#guardar').click(function(){
-      if( diagramaID=='-1')
-      $('#modalGuardar').openModal();
-      else {
-        guardar();
-      }
-    });
-    $('#exportar').click(exportar);
-    $('#compartir').click(function(){
-      compartir();
-    });
-    $('#guardarModal').click(guardar);
+$('#botonEntidad').click(function(){
+  agregarEntidad();
+  //entidad = graph.getCell(idActual);
+  //entidad.set('name', $('nombreEntidad').text);
+});
+$('#guardar').click(function(){
+  if( diagramaID=='-1')
+  $('#modalGuardar').openModal();
+  else {
+    guardar();
+  }
+});
+$('#exportar').click(exportar);
+$('#compartir').click(function(){
+  compartir();
+});
+$('#guardarModal').click(guardar);
 
-    var match = document.cookie.match(new RegExp("diagramID" + '=([^;]+)'));
-    if (match){
-      diagramaID=match[1];
-      if(match[1]!='-1')
-      cargar(match[1]);
+var match = document.cookie.match(new RegExp("diagramID" + '=([^;]+)'));
+if (match){
+  diagramaID=match[1];
+  if(match[1]!='-1')
+  cargar(match[1]);
 
-    }
+}
 
 
 
-    io.socket.on('connect', function socketConnected() {
-       io.socket.on('diagrama', function messageReceived(message) {
-         console.log("hay cambio");
-         //alert(JSON.stringify(message));
-         reload(message);
-         });
-       });
+io.socket.on('connect', function socketConnected() {
+  io.socket.on('diagrama', function messageReceived(message) {
+    console.log("hay cambio");
+    //alert(JSON.stringify(message));
+    reload(message);
+  });
+});
 });
 
 
@@ -64,73 +64,73 @@ io.socket.on('diagrama', function(obj) {
 var graph = new joint.dia.Graph();
 
 var paper = new joint.dia.Paper({
-    el: $('#paper'),
-    width: 1200,
-    height: 600,
-    gridSize: 1,
-    model: graph
+  el: $('#paper'),
+  width: 1200,
+  height: 600,
+  gridSize: 1,
+  model: graph
 });
 
 paper.on('cell:pointerup',
-    function(cellView, evt, x, y) {
+function(cellView, evt, x, y) {
 
 
 
 
-      if(eliminar==0){
-        if(diagramaID!='-1'){
-          var entidades= new Array();
-          var relaciones =new Array();
+  if(eliminar==0){
+    if(diagramaID!='-1'){
+      var entidades= new Array();
+      var relaciones =new Array();
 
-          rel=graph.getLinks();
-          ele = graph.getElements();
-          if(rel!= undefined){
+      rel=graph.getLinks();
+      ele = graph.getElements();
+      if(rel!= undefined){
         rel.forEach(function(relacion,index){
-              relaciones.push(relacion.toJSON());
-          });
-            }
-        if(ele!=undefined){
-          ele.forEach(function(element,index){
-              entidades.push(element.toJSON());
-          });
-        }
-        io.socket.post("/emit", {entidades: entidades, relaciones: relaciones}, function (resData, jwres){});
-      }
-    /*  $('#nombreEntidad').text(cellView.model.get('name'));
-      $('#atributosEntidad').text(cellView.model.get('attributes'));
-      idActual = cellView.model.id;*/
-    }
-    else{
-      console.log('eliminar');
-      eliminar=0;
-      cellView.model.remove();
-      if(diagramaID!='-1'){
-        var entidades= new Array();
-        var relaciones =new Array();
-
-        rel=graph.getLinks();
-        ele = graph.getElements();
-        if(rel!= undefined){
-      rel.forEach(function(relacion,index){
-            relaciones.push(relacion.toJSON());
+          relaciones.push(relacion.toJSON());
         });
-          }
+      }
       if(ele!=undefined){
         ele.forEach(function(element,index){
-            entidades.push(element.toJSON());
+          entidades.push(element.toJSON());
         });
       }
       io.socket.post("/emit", {entidades: entidades, relaciones: relaciones}, function (resData, jwres){});
-}
     }
-         //cellView.model.get('name')
-    });
+    /*  $('#nombreEntidad').text(cellView.model.get('name'));
+    $('#atributosEntidad').text(cellView.model.get('attributes'));
+    idActual = cellView.model.id;*/
+  }
+  else{
+    console.log('eliminar');
+    eliminar=0;
+    cellView.model.remove();
+    if(diagramaID!='-1'){
+      var entidades= new Array();
+      var relaciones =new Array();
+
+      rel=graph.getLinks();
+      ele = graph.getElements();
+      if(rel!= undefined){
+        rel.forEach(function(relacion,index){
+          relaciones.push(relacion.toJSON());
+        });
+      }
+      if(ele!=undefined){
+        ele.forEach(function(element,index){
+          entidades.push(element.toJSON());
+        });
+      }
+      io.socket.post("/emit", {entidades: entidades, relaciones: relaciones}, function (resData, jwres){});
+    }
+  }
+  //cellView.model.get('name')
+});
 
 
 
 /*
 graph.on('change', function(cell) {
-  guardar();
+guardar();
 })
 
 elements= graph.getElements();
@@ -150,29 +150,29 @@ var diagramaID='-1';
 
 function agregarEntidad(){
   var entidad = new uml.Class({
-      position: { x:630  , y: 190 },
-      size: { width: 160, height: 100 },
-      name: $('#nombreEntidad').val(),
-      attributes: [$("#atributosEntidad").val().split()],
-      methods: [],
-      attrs: {
-          '.uml-class-name-rect': {
-              fill: '#ff8450',
-              stroke: '#fff',
-              'stroke-width': 0.5
+    position: { x:630  , y: 190 },
+    size: { width: 160, height: 100 },
+    name: $('#nombreEntidad').val(),
+    attributes: [$("#atributosEntidad").val().split()],
+    methods: [],
+    attrs: {
+      '.uml-class-name-rect': {
+        fill: '#ff8450',
+        stroke: '#fff',
+        'stroke-width': 0.5
 
-          },
-          '.uml-class-attrs-rect, .uml-class-methods-rect': {
-              fill: '#fe976a',
-              stroke: '#fff',
-              'stroke-width': 0.5,
-              magnet: true
-          },
-          '.uml-class-attrs-text': {
-              'ref-y': 0.5,
-              'y-alignment': 'middle'
-          }
       },
+      '.uml-class-attrs-rect, .uml-class-methods-rect': {
+        fill: '#fe976a',
+        stroke: '#fff',
+        'stroke-width': 0.5,
+        magnet: true
+      },
+      '.uml-class-attrs-text': {
+        'ref-y': 0.5,
+        'y-alignment': 'middle'
+      }
+    },
 
   });
   graph.addCell(entidad);
@@ -183,51 +183,51 @@ function agregarEntidad(){
 
 function agregarEntidadP(x,y,name,attributes,id){
   var entidad = new uml.Class({
-      id: String(id),
-      position: { x: x  , y: y },
-      size: { width: 160, height: 100 },
-      name: name,
-      attributes: attributes,
-      methods: [],
-      attrs: {
-          '.uml-class-name-rect': {
-              fill: '#ff8450',
-              stroke: '#fff',
-              'stroke-width': 0.5
+    id: String(id),
+    position: { x: x  , y: y },
+    size: { width: 160, height: 100 },
+    name: name,
+    attributes: attributes,
+    methods: [],
+    attrs: {
+      '.uml-class-name-rect': {
+        fill: '#ff8450',
+        stroke: '#fff',
+        'stroke-width': 0.5
 
-          },
-          '.uml-class-attrs-rect, .uml-class-methods-rect': {
-              fill: '#fe976a',
-              stroke: '#fff',
-              'stroke-width': 0.5,
-              magnet: true
-          },
-          '.uml-class-attrs-text': {
-              'ref-y': 0.5,
-              'y-alignment': 'middle'
-          }
       },
+      '.uml-class-attrs-rect, .uml-class-methods-rect': {
+        fill: '#fe976a',
+        stroke: '#fff',
+        'stroke-width': 0.5,
+        magnet: true
+      },
+      '.uml-class-attrs-text': {
+        'ref-y': 0.5,
+        'y-alignment': 'middle'
+      }
+    },
 
   });
-/*
+  /*
   entidad.on('change:position', function() {
 
-     guardar();
+  guardar();
 
-   });*/
-  graph.addCell(entidad);
+});*/
+graph.addCell(entidad);
 
 }
 
 function agregarLink(source,target){
- var r = new uml.Aggregation({ source: { id: source }, target: { id: target }});
+  var r = new uml.Aggregation({ source: { id: source }, target: { id: target }});
 
- r.attr({
+  r.attr({
     '.connection': { stroke: 'black' },
     '.marker-source': { fill: 'red', d: '' },
     '.marker-target': { fill: 'yellow', d: '' }
-});
- graph.addCell(r);
+  });
+  graph.addCell(r);
 
 }
 
@@ -240,39 +240,39 @@ function guardar(){
   rel=graph.getLinks();
   ele = graph.getElements();
   if(rel!= undefined){
-rel.forEach(function(relacion,index){
+    rel.forEach(function(relacion,index){
       relaciones.push(relacion.toJSON());
-  });
-    }
-if(ele!=undefined){
-  ele.forEach(function(element,index){
+    });
+  }
+  if(ele!=undefined){
+    ele.forEach(function(element,index){
       entidades.push(element.toJSON());
-  });
-}
+    });
+  }
 
-var svgDoc = paper.svg;
-var serializer = new XMLSerializer();
-var svgString = serializer.serializeToString(svgDoc);
+  var svgDoc = paper.svg;
+  var serializer = new XMLSerializer();
+  var svgString = serializer.serializeToString(svgDoc);
 
-if (diagramaID=='-1'){
+  if (diagramaID=='-1'){
 
-  $.post("/diagramCreate",
-  {nombre: $('#nombreDiagrama').val(), entidades: entidades, relaciones: relaciones, imagen : svgString}
-  ,
-  function(data, status){
+    $.post("/diagramCreate",
+    {nombre: $('#nombreDiagrama').val(), entidades: entidades, relaciones: relaciones, imagen : svgString}
+    ,
+    function(data, status){
 
     }).fail(function() {
-    alert( "error" );
-  });
+      alert( "error" );
+    });
   }
   else {
 
-      $.post("/diagramaSave",
-      {id: diagramaID, entidades: entidades, relaciones: relaciones, imagen: svgString}
-      ,
-      function(data, status){}).fail(function() {
-        alert( "error" );
-      });
+    $.post("/diagramaSave",
+    {id: diagramaID, entidades: entidades, relaciones: relaciones, imagen: svgString}
+    ,
+    function(data, status){}).fail(function() {
+      alert( "error" );
+    });
   }
 }
 
@@ -289,25 +289,25 @@ function reload(diagrama){
     relacion.remove();
   });
 
-if(diagrama.entidades!=undefined){
-  console.log('entidad');
-  diagrama.entidades.forEach(function(entidad,index){
-    var ent = entidad;
-    agregarEntidadP(parseInt(ent.position.x),parseInt(ent.position.y),ent.name,ent.attributes,ent.id);
-  });
+  if(diagrama.entidades!=undefined){
+    console.log('entidad');
+    diagrama.entidades.forEach(function(entidad,index){
+      var ent = entidad;
+      agregarEntidadP(parseInt(ent.position.x),parseInt(ent.position.y),ent.name,ent.attributes,ent.id);
+    });
   }
-if(diagrama.relaciones!=undefined){
-  diagrama.relaciones.forEach(function(relacion,index){
-    console.log('relacion');
-    var rel = relacion;
-    agregarLink(rel.source.id,rel.target.id);
-  });}
+  if(diagrama.relaciones!=undefined){
+    diagrama.relaciones.forEach(function(relacion,index){
+      console.log('relacion');
+      var rel = relacion;
+      agregarLink(rel.source.id,rel.target.id);
+    });}
 
 
-}
+  }
 
-function cargar(id){
-  $.get( "/loadOne", {diagramaId: id}, function(data) {
+  function cargar(id){
+    $.get( "/loadOne", {diagramaId: id}, function(data) {
 
       data.entidades.forEach(function(entidad,index){
         ent = entidad.data;
@@ -318,193 +318,193 @@ function cargar(id){
         agregarLink(rel.source.id,rel.target.id);
       });
     });
-//graph.resetCells(graph.get("cells"));
-//paper.render();
+    //graph.resetCells(graph.get("cells"));
+    //paper.render();
 
-}
-function download(filename, text) {
+  }
+  function download(filename, text) {
     var pom = document.createElement('a');
     pom.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(text));
     pom.setAttribute('download', filename);
 
     if (document.createEvent) {
-        var event = document.createEvent('MouseEvents');
-        event.initEvent('click', true, true);
-        pom.dispatchEvent(event);
+      var event = document.createEvent('MouseEvents');
+      event.initEvent('click', true, true);
+      pom.dispatchEvent(event);
     }
     else {
-        pom.click();
+      pom.click();
     }
+  }
+
+  function exportar(e){
+    e.preventDefault();
+    var svgDoc = paper.svg;
+    var serializer = new XMLSerializer();
+    var svgString = serializer.serializeToString(svgDoc);
+    download('Diagrama.svg', svgString);
+
+
+  }
+
+  function compartir(){
+
+    io.socket.post("/emit", {}, function (resData, jwres){});
+  }
+
+
+  /*
+  var classes = {
+
+  mammal: new uml.Interface({
+  position: { x:300  , y: 50 },
+  size: { width: 240, height: 100 },
+  name: 'Mammal',
+  attributes: ['dob: Date'],
+  methods: ['+ setDateOfBirth(dob: Date): Void','+ getAgeAsDays(): Numeric'],
+  attrs: {
+  '.uml-class-name-rect': {
+  fill: '#feb662',
+  stroke: '#ffffff',
+  'stroke-width': 0.5
+},
+'.uml-class-attrs-rect, .uml-class-methods-rect': {
+fill: '#fdc886',
+stroke: '#fff',
+'stroke-width': 0.5
+},
+'.uml-class-attrs-text': {
+ref: '.uml-class-attrs-rect',
+'ref-y': 0.5,
+'y-alignment': 'middle'
+},
+'.uml-class-methods-text': {
+ref: '.uml-class-methods-rect',
+'ref-y': 0.5,
+'y-alignment': 'middle'
 }
 
-function exportar(e){
-e.preventDefault();
-  var svgDoc = paper.svg;
-var serializer = new XMLSerializer();
-var svgString = serializer.serializeToString(svgDoc);
-download('Diagrama.svg', svgString);
-
-
 }
+}),
 
-function compartir(){
-
-io.socket.post("/emit", {}, function (resData, jwres){});
+person: new uml.Abstract({
+position: { x:300  , y: 300 },
+size: { width: 260, height: 100 },
+name: 'Person',
+attributes: ['firstName: String','lastName: String'],
+methods: ['+ setName(first: String, last: String): Void','+ getName(): String'],
+attrs: {
+'.uml-class-name-rect': {
+fill: '#68ddd5',
+stroke: '#ffffff',
+'stroke-width': 0.5
+},
+'.uml-class-attrs-rect, .uml-class-methods-rect': {
+fill: '#9687fe',
+stroke: '#fff',
+'stroke-width': 0.5
+},
+'.uml-class-methods-text, .uml-class-attrs-text': {
+fill: '#fff'
 }
+}
+}),
 
+bloodgroup: new uml.Class({
+position: { x:20  , y: 190 },
+size: { width: 220, height: 100 },
+name: 'BloodGroup',
+attributes: ['bloodGroup: String'],
+methods: ['+ isCompatible(bG: String): Boolean'],
+attrs: {
+'.uml-class-name-rect': {
+fill: '#ff8450',
+stroke: '#fff',
+'stroke-width': 0.5,
+},
+'.uml-class-attrs-rect, .uml-class-methods-rect': {
+fill: '#fe976a',
+stroke: '#fff',
+'stroke-width': 0.5
+},
+'.uml-class-attrs-text': {
+ref: '.uml-class-attrs-rect',
+'ref-y': 0.5,
+'y-alignment': 'middle'
+},
+'.uml-class-methods-text': {
+ref: '.uml-class-methods-rect',
+'ref-y': 0.5,
+'y-alignment': 'middle'
+}
+}
+}),
 
-/*
-var classes = {
+address: new uml.Class({
+position: { x:630  , y: 190 },
+size: { width: 160, height: 100 },
+name: 'Address',
+attributes: ['houseNumber: Integer','streetName: String','town: String','postcode: String'],
+methods: [],
+attrs: {
+'.uml-class-name-rect': {
+fill: '#ff8450',
+stroke: '#fff',
+'stroke-width': 0.5
+},
+'.uml-class-attrs-rect, .uml-class-methods-rect': {
+fill: '#fe976a',
+stroke: '#fff',
+'stroke-width': 0.5,
+},
+'.uml-class-attrs-text': {
+'ref-y': 0.5,
+'y-alignment': 'middle'
+}
+},
 
-    mammal: new uml.Interface({
-        position: { x:300  , y: 50 },
-        size: { width: 240, height: 100 },
-        name: 'Mammal',
-        attributes: ['dob: Date'],
-        methods: ['+ setDateOfBirth(dob: Date): Void','+ getAgeAsDays(): Numeric'],
-        attrs: {
-            '.uml-class-name-rect': {
-                fill: '#feb662',
-                stroke: '#ffffff',
-                'stroke-width': 0.5
-            },
-            '.uml-class-attrs-rect, .uml-class-methods-rect': {
-                fill: '#fdc886',
-                stroke: '#fff',
-                'stroke-width': 0.5
-            },
-            '.uml-class-attrs-text': {
-                ref: '.uml-class-attrs-rect',
-                'ref-y': 0.5,
-                'y-alignment': 'middle'
-            },
-            '.uml-class-methods-text': {
-                ref: '.uml-class-methods-rect',
-                'ref-y': 0.5,
-                'y-alignment': 'middle'
-            }
+}),
 
-        }
-    }),
+man: new uml.Class({
+position: { x:200  , y: 500 },
+size: { width: 180, height: 50 },
+name: 'Man',
+attrs: {
+'.uml-class-name-rect': {
+fill: '#ff8450',
+stroke: '#fff',
+'stroke-width': 0.5
+},
+'.uml-class-attrs-rect, .uml-class-methods-rect': {
+fill: '#fe976a',
+stroke: '#fff',
+'stroke-width': 0.5
+}
+}
+}),
 
-    person: new uml.Abstract({
-        position: { x:300  , y: 300 },
-        size: { width: 260, height: 100 },
-        name: 'Person',
-        attributes: ['firstName: String','lastName: String'],
-        methods: ['+ setName(first: String, last: String): Void','+ getName(): String'],
-        attrs: {
-            '.uml-class-name-rect': {
-                fill: '#68ddd5',
-                stroke: '#ffffff',
-                'stroke-width': 0.5
-            },
-            '.uml-class-attrs-rect, .uml-class-methods-rect': {
-                fill: '#9687fe',
-                stroke: '#fff',
-                'stroke-width': 0.5
-            },
-            '.uml-class-methods-text, .uml-class-attrs-text': {
-                fill: '#fff'
-            }
-        }
-    }),
-
-    bloodgroup: new uml.Class({
-        position: { x:20  , y: 190 },
-        size: { width: 220, height: 100 },
-        name: 'BloodGroup',
-        attributes: ['bloodGroup: String'],
-        methods: ['+ isCompatible(bG: String): Boolean'],
-        attrs: {
-            '.uml-class-name-rect': {
-                fill: '#ff8450',
-                stroke: '#fff',
-                'stroke-width': 0.5,
-            },
-            '.uml-class-attrs-rect, .uml-class-methods-rect': {
-                fill: '#fe976a',
-                stroke: '#fff',
-                'stroke-width': 0.5
-            },
-            '.uml-class-attrs-text': {
-                ref: '.uml-class-attrs-rect',
-                'ref-y': 0.5,
-                'y-alignment': 'middle'
-            },
-            '.uml-class-methods-text': {
-                ref: '.uml-class-methods-rect',
-                'ref-y': 0.5,
-                'y-alignment': 'middle'
-            }
-        }
-    }),
-
-    address: new uml.Class({
-        position: { x:630  , y: 190 },
-        size: { width: 160, height: 100 },
-        name: 'Address',
-        attributes: ['houseNumber: Integer','streetName: String','town: String','postcode: String'],
-        methods: [],
-        attrs: {
-            '.uml-class-name-rect': {
-                fill: '#ff8450',
-                stroke: '#fff',
-                'stroke-width': 0.5
-            },
-            '.uml-class-attrs-rect, .uml-class-methods-rect': {
-                fill: '#fe976a',
-                stroke: '#fff',
-                'stroke-width': 0.5,
-            },
-            '.uml-class-attrs-text': {
-                'ref-y': 0.5,
-                'y-alignment': 'middle'
-            }
-        },
-
-    }),
-
-    man: new uml.Class({
-        position: { x:200  , y: 500 },
-        size: { width: 180, height: 50 },
-        name: 'Man',
-        attrs: {
-            '.uml-class-name-rect': {
-                fill: '#ff8450',
-                stroke: '#fff',
-                'stroke-width': 0.5
-            },
-            '.uml-class-attrs-rect, .uml-class-methods-rect': {
-                fill: '#fe976a',
-                stroke: '#fff',
-                'stroke-width': 0.5
-            }
-        }
-    }),
-
-    woman: new uml.Class({
-        position: { x:450  , y: 500 },
-        size: { width: 180, height: 50 },
-        name: 'Woman',
-        methods: ['+ giveABrith(): Person []'],
-        attrs: {
-            '.uml-class-name-rect': {
-                fill: '#ff8450',
-                stroke: '#fff',
-                'stroke-width': 0.5
-            },
-            '.uml-class-attrs-rect, .uml-class-methods-rect': {
-                fill: '#fe976a',
-                stroke: '#fff',
-                'stroke-width': 0.5
-            },
-            '.uml-class-methods-text': {
-                'ref-y': 0.5,
-                'y-alignment': 'middle'
-            }
-        }
-    })
+woman: new uml.Class({
+position: { x:450  , y: 500 },
+size: { width: 180, height: 50 },
+name: 'Woman',
+methods: ['+ giveABrith(): Person []'],
+attrs: {
+'.uml-class-name-rect': {
+fill: '#ff8450',
+stroke: '#fff',
+'stroke-width': 0.5
+},
+'.uml-class-attrs-rect, .uml-class-methods-rect': {
+fill: '#fe976a',
+stroke: '#fff',
+'stroke-width': 0.5
+},
+'.uml-class-methods-text': {
+'ref-y': 0.5,
+'y-alignment': 'middle'
+}
+}
+})
 
 
 };
@@ -512,11 +512,11 @@ var classes = {
 _.each(classes, function(c) { graph.addCell(c); });
 
 var relations = [
-    new uml.Generalization({ source: { id: classes.man.id }, target: { id: classes.person.id }}),
-    new uml.Generalization({ source: { id: classes.woman.id }, target: { id: classes.person.id }}),
-    new uml.Implementation({ source: { id: classes.person.id }, target: { id: classes.mammal.id }}),
-    new uml.Aggregation({ source: { id: classes.person.id }, target: { id: classes.address.id }}),
-    new uml.Composition({ source: { id: classes.person.id }, target: { id: classes.bloodgroup.id }})
+new uml.Generalization({ source: { id: classes.man.id }, target: { id: classes.person.id }}),
+new uml.Generalization({ source: { id: classes.woman.id }, target: { id: classes.person.id }}),
+new uml.Implementation({ source: { id: classes.person.id }, target: { id: classes.mammal.id }}),
+new uml.Aggregation({ source: { id: classes.person.id }, target: { id: classes.address.id }}),
+new uml.Composition({ source: { id: classes.person.id }, target: { id: classes.bloodgroup.id }})
 ];
 
 _.each(relations, function(r) { graph.addCell(r); });
