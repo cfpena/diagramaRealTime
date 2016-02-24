@@ -13,7 +13,8 @@ module.exports = {
     entidades : { collection: 'entidad', via: 'id'},
     relaciones: { collection: 'relacion', via: 'id' },
     creador: { type: 'string' },
-    usuarios: { collection: 'user', via: 'diagramas'}
+    usuarios: { collection: 'user', via: 'diagramas'},
+    imagen: {type: 'text'}
 
     }
 

@@ -55,6 +55,7 @@ module.exports.routes = {
   '/diagramaSave': 'DiagramaController.save',
   'post /diagramaDestroy': 'DiagramaController.destroy',
   'post /diagramaShare': 'DiagramaController.share',
+  '/emit': 'DiagramaController.emit'
 
 
 

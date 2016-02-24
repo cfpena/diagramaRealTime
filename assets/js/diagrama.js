@@ -36,7 +36,7 @@ io.socket.on('diagrama', function(obj) {
     });
     $('#exportar').click(exportar);
     $('#compartir').click(function(){
-      cargar(diagramaID);
+      compartir();
     });
     $('#guardarModal').click(guardar);
 
@@ -49,9 +49,11 @@ io.socket.on('diagrama', function(obj) {
     }
 
 
+
     io.socket.on('connect', function socketConnected() {
        io.socket.on('diagrama', function messageReceived(message) {
          console.log("hay cambio");
+         //alert(JSON.stringify(message));
          reload(message);
          });
        });
@@ -73,17 +75,53 @@ paper.on('cell:pointerup',
     function(cellView, evt, x, y) {
 
 
+
+
       if(eliminar==0){
-        if(diagramaID!='-1') guardar();
+        if(diagramaID!='-1'){
+          var entidades= new Array();
+          var relaciones =new Array();
+
+          rel=graph.getLinks();
+          ele = graph.getElements();
+          if(rel!= undefined){
+        rel.forEach(function(relacion,index){
+              relaciones.push(relacion.toJSON());
+          });
+            }
+        if(ele!=undefined){
+          ele.forEach(function(element,index){
+              entidades.push(element.toJSON());
+          });
+        }
+        io.socket.post("/emit", {entidades: entidades, relaciones: relaciones}, function (resData, jwres){});
+      }
     /*  $('#nombreEntidad').text(cellView.model.get('name'));
       $('#atributosEntidad').text(cellView.model.get('attributes'));
       idActual = cellView.model.id;*/
     }
     else{
       console.log('eliminar');
-      cellView.model.remove();
-      if(diagramaID!='-1') guardar();
       eliminar=0;
+      cellView.model.remove();
+      if(diagramaID!='-1'){
+        var entidades= new Array();
+        var relaciones =new Array();
+
+        rel=graph.getLinks();
+        ele = graph.getElements();
+        if(rel!= undefined){
+      rel.forEach(function(relacion,index){
+            relaciones.push(relacion.toJSON());
+        });
+          }
+      if(ele!=undefined){
+        ele.forEach(function(element,index){
+            entidades.push(element.toJSON());
+        });
+      }
+      io.socket.post("/emit", {entidades: entidades, relaciones: relaciones}, function (resData, jwres){});
+}
     }
          //cellView.model.get('name')
     });
@@ -212,10 +250,14 @@ if(ele!=undefined){
   });
 }
 
+var svgDoc = paper.svg;
+var serializer = new XMLSerializer();
+var svgString = serializer.serializeToString(svgDoc);
+
 if (diagramaID=='-1'){
 
   $.post("/diagramCreate",
-  {nombre: $('#nombreDiagrama').val(), entidades: entidades, relaciones: relaciones}
+  {nombre: $('#nombreDiagrama').val(), entidades: entidades, relaciones: relaciones, imagen : svgString}
   ,
   function(data, status){
 
@@ -226,7 +268,7 @@ if (diagramaID=='-1'){
   else {
 
       $.post("/diagramaSave",
-      {id: diagramaID, entidades: entidades, relaciones: relaciones}
+      {id: diagramaID, entidades: entidades, relaciones: relaciones, imagen: svgString}
       ,
       function(data, status){}).fail(function() {
         alert( "error" );
@@ -303,6 +345,11 @@ var svgString = serializer.serializeToString(svgDoc);
 download('Diagrama.svg', svgString);
 
 
+}
+
+function compartir(){
+
+io.socket.post("/emit", {}, function (resData, jwres){});
 }
 
 

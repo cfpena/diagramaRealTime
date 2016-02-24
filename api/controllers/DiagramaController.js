@@ -78,6 +78,8 @@ module.exports = {
 				});
 				}
 
+
+
 			if(diagrama.relaciones != undefined){
 				diagrama.relaciones.forEach(function(relacion){
 					Relacion.destroy(relacion.id).exec(function (err){});
@@ -89,10 +91,21 @@ module.exports = {
 					diagrama.relaciones.add({data: data});
 				});
 			}
+
+
+				diagrama.imagen = req.param('imagen');
 				diagrama.save(function(err) {});
-				sails.io.sockets.emit("diagrama", {verb:"saved", data:{entidades: entidades, relaciones: relaciones}});
+				console.log(diagrama);
+
+		//		sails.io.sockets.emit("diagrama", {verb:"saved", data:{entidades: entidades, relaciones: relaciones}});
 
 		});
+/*
+		Diagrama.update(req.param('id'),{imagen: req.param('imagen')}).exec(function afterwards(err, updated){
+		console.log(req.param('id'));
+		console.log(req.param('imagen'));
+		console.log(updated);
+	});*/
 	},
 
 		destroy: function (req,res){
@@ -132,7 +145,17 @@ module.exports = {
 
 
 
-		}
+		},
+		emit: function(req,res){
+			var entidades = req.param('entidades');
+			var relaciones = req.param('relaciones');
+			sails.io.sockets.emit("diagrama", {verb:"saved", data:{entidades: entidades, relaciones: relaciones}});
+			console.log('emit');
+
+		},
+
+
+
 
 
 

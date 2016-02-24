@@ -40,14 +40,11 @@
           <div class="card blue lighten-1">
               <div class="card-content center-align">
                   <div class="card-title truncate">Nuevo</div>
-                  <img id="nuevo" class="circle" src="">
+                  <img id="nuevo" class="circle" src="images/plus.png">
+                  <br>
+                  <br>
                   <p class="blue-text text-darken-4"><!-- Compartido --></p>
-                  <br>
-                  <br>
-                  <br>
-                  <br>
-                  <br>
-              </div>
+                </div>
               <div class="card-action center-align truncate">
                   <a href="#" class="blue-text text-darken-4"></a>
               </div>
@@ -70,8 +67,11 @@
             <div class="row">
             <div class="card blue lighten-1">
                 <div class="card-content center-align">
-                    <div class="card-title truncate"><%= diagrama.nombre %></div>
-                    <img class="circle" src="">
+                    <div class="card-title truncate"><% if ( diagrama.nombre != '') {%> <%=diagrama.nombre%><%} else { %>
+                      <br>
+                      <% }%>
+                    </div>
+                     <img class='circle' src="images/diagrama.png"  height="108" width="108">
 
                     <p class="blue-text text-darken-4"><% if(diagrama.creador != user.username)  { %>
                       Compartido por <%= diagrama.creador %></p>
@@ -86,14 +86,12 @@
                         <div class="col m2 s6 center-align"><a class="destroy" data-id=<%= diagrama.id %>><i class="white-text small mdi-action-highlight-remove"></i></a></div>
 
                         <div class="col m2 s6 center-align"><a class="share" data-id=<%= diagrama.id %>><i class="white-text small mdi-action-account-child"></i></a></div>
-                          <% } %> 
-                        <div class="col m2 s6 center-align"><a href=""><i class="white-text small mdi-action-account-balance"></i></a></div>
-                        <div class="col m2 .hide-on-small-only">&nbsp;</div>
+                          <% } %>
+                      
+
                     </div>
                 </div>
-                <div class="card-action center-align truncate">
-                    <a href="#" class="blue-text text-darken-4"></a>
-                </div>
+
             </div><!--/card-->
         </div>
         </div>
