@@ -60,7 +60,8 @@ module.exports = {
    * to 80 (http://) or 443 (https://) if you have an SSL certificate        *
    ***************************************************************************/
 
-  // port: process.env.PORT || 1337,
+  port: 80,
+  appName: "dawChart",
 
   /***************************************************************************
    * The runtime "environment" of your Sails app is either typically         *
